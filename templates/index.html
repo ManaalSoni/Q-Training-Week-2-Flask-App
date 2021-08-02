@@ -1,0 +1,65 @@
+<!-- Template inheritance: we make a base for html that will remain constant and then we can do any changes in only some parts without interferring with other html blocks -->
+{% extends 'base.html' %}
+
+{% block head %}
+<title>To Do List</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">My To Do List!</h1>
+    {% if tasks|length < 1 %}
+    <h4 style="text-align: center">There are no tasks. Start creating..</h4>
+    {% else %}
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Added</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.content }}</td>
+                <td>{{ task.date_created.date() }}</td>
+                <td>
+                    <a href="/delete/{{task.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{task.id}}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+<div class="form">
+    <form action="/" method="POST" style="margin:auto;max-width:400px">
+        <input class="input" type="text" name="content" id="content" placeholder="Write Task Here">
+        
+        <button class="button">
+            <span class="submit" value="Add Task">Submit</span>
+        </button>
+    </form>
+</div>
+<div class="form">
+    <form class="example" method="post" action="" 
+         style="margin:auto;max-width:400px">
+            <input class="input" type="text" placeholder="Search" name="tasks">
+            <button class="button">
+                <span class="submit" value="Search">Search</span>
+            </button>
+        </form>
+        <p></p>
+        <center>
+        {% for item in data %}
+            <tr>
+                <td> {{item[0]}} by {{item[1]}}</td>
+                </br>
+            </tr>
+        {% endfor %}
+        </center>
+</div>
+{% endblock %}
